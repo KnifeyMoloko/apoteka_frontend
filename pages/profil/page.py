@@ -6,8 +6,8 @@ from pages.profil.elements import ProfilUserName, ProfilUserSurname, ProfilEmail
 
 
 class ProfilPage(Page):
-    def __init__(self, driver: WebDriver):
-        super().__init__(url="https://apopro.dk/Profile", driver=driver)
+    def __init__(self, driver: WebDriver, *args, **kwargs):
+        super().__init__(url="https://apopro.dk/Profile", driver=driver, kwargs=kwargs)
         self.title = "Profil | Apopro.dk"
 
     def get_profil_user_name_field(self) -> WebElement:

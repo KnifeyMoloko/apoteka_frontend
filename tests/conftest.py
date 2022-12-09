@@ -14,12 +14,17 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 
+LOGGER = logging.getLogger(__name__)
+
 
 @pytest.fixture
 def chrome_driver():
     chrome_driver_path = os.getenv("CHROME_DRIVER_PATH")
     logging.info("Loading Chrome driver from path: %s", chrome_driver_path)
-    return Chrome(executable_path=Path(chrome_driver_path))
+    driver = Chrome(executable_path=Path(chrome_driver_path))
+    yield driver
+    LOGGER.info("Closing driver instance")
+    driver.close()
 
 
 @pytest.fixture

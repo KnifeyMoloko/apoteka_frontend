@@ -1,3 +1,5 @@
+from typing import Generator
+
 import pytest
 from assertpy import assert_that
 
@@ -12,11 +14,21 @@ def login_page_model(chrome_driver) -> LoginPage:
 
 
 @pytest.fixture(scope="function")
-def profil_page_model(chrome_driver) -> ProfilPage:
-    return get_page(page_model=ProfilPage, driver=chrome_driver)
+def profil_page_model(chrome_driver) -> Generator[ProfilPage, None, None]:
+    page = get_page(page_model=ProfilPage, driver=chrome_driver)
+    yield page
+    page.logout()
 
 
 def test_login_regular_user(login_page_model, profil_page_model, regular_user):
+    """
+    Simple "happy path" scenario for the login page.
+    1. Get the login page.
+    2. Close the 'cookies' info modal.
+    3. Enter Regular User's name and password and submit.
+    4. Assert that we land in the Profil page and that the user
+    data is Regular User's.
+    """
     login_page_model.click_cookie_modal_accept_button()
     assert_that(login_page_model.get_login_form_email_input_field()).is_not_none()
     assert_that(login_page_model.get_login_form_password_input_field()).is_not_none()

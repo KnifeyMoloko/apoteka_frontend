@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 class ApotekElement:
     XPATH: str
+    CLASS: str = None
 
     def __init__(self, driver: WebDriver):
         self._driver = driver

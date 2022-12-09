@@ -12,8 +12,10 @@ from users.user import TestUser
 
 
 class LoginPage(Page):
-    def __init__(self, driver: WebDriver):
-        super().__init__(url="https://apopro.dk/Account/Login", driver=driver)
+    def __init__(self, driver: WebDriver, *args, **kwargs):
+        super().__init__(
+            url="https://apopro.dk/Account/Login", driver=driver, kwargs=kwargs
+        )
         self.title = "Login | Apopro.dk"
 
     def get_login_form(self) -> WebElement:
